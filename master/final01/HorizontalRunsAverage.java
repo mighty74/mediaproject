@@ -1,11 +1,23 @@
 package final01;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import GImage.GImage;
 
 public class HorizontalRunsAverage extends Extract{
-	public double extracted(GImage img){
+	public List<Double> extracted(){
+		List<Double> listHorizontalRunsAverage = new ArrayList<Double>();
+		for(int i = 1; i <= 100; i++) {
+			String fileName = "FinalImage/" + i + ".bmp";
+		    GImage img= new GImage(fileName);
+		    listHorizontalRunsAverage.add(horizontalRunsAverage(img));
+		}
+		return listHorizontalRunsAverage;
+	}
+	public double horizontalRunsAverage(GImage img){
 		if(img == null) {
-			System.out.println("concentrationでヌルポ");
+			System.out.println("horizontalRunsAverageでヌルポ");
 			return 0;
 		}
 		int width = img.getWidth();
@@ -31,7 +43,8 @@ public class HorizontalRunsAverage extends Extract{
 	    }
 	    int y = ymax-ymin+1;
 
-	    return Math.floor((double)count * 1000 / y) / 1000;
+	    //return Math.floor((double)count * 1000 / y) / 1000;
+	    return (double)(count) / (double)(y);
 	}
 
 }

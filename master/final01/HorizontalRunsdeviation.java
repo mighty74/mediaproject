@@ -6,9 +6,19 @@ import java.util.List;
 import GImage.GImage;
 
 public class HorizontalRunsdeviation extends Extract{
-	public double extracted(GImage img){
+	public List<Double> extracted(){
+		List<Double> listHorizontalRunsdeviation = new ArrayList<Double>();
+		for(int i = 1; i <= 100; i++) {
+			String fileName = "FinalImage/" + i + ".bmp";
+		    GImage img= new GImage(fileName);
+		    listHorizontalRunsdeviation.add(horizontalRunsdeviation(img));
+		}
+		return listHorizontalRunsdeviation;
+	}
+
+	public double horizontalRunsdeviation(GImage img){
 		if(img == null) {
-			System.out.println("concentrationでヌルポ");
+			System.out.println("horizontalRunsdeviationでヌルポ");
 			return 0;
 		}
 		int width = img.getWidth();
@@ -46,10 +56,11 @@ public class HorizontalRunsdeviation extends Extract{
 	    double average = (double)count/y;
 
 	    for(int i = 0; i < n.size(); i++) {
-	    	total += Math.pow(n.get(i) - average, 2.0);
+	    	total += Math.pow((double)(n.get(i)) - average, 2.0);
 	    }
 
-	    return Math.floor(Math.sqrt(total/y) * 1000) / 1000;
+	    //return Math.floor(Math.sqrt(total/y) * 1000) / 1000;
+	    return Math.sqrt(total/(double)(y));
 	}
 
 }

@@ -1,7 +1,9 @@
 package final01;
 
+import java.util.List;
+
 import GImage.GImage;
 
 public abstract class Extract {
-	public abstract double extracted(GImage img);
+	public abstract List<Double> extracted();
 }

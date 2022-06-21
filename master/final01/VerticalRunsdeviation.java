@@ -6,9 +6,19 @@ import java.util.List;
 import GImage.GImage;
 
 public class VerticalRunsdeviation extends Extract{
-	public double extracted(GImage img){
+	public List<Double> extracted(){
+		List<Double> listVerticalRunsdeviation = new ArrayList<Double>();
+		for(int i = 1; i <= 100; i++) {
+			String fileName = "FinalImage/" + i + ".bmp";
+		    GImage img= new GImage(fileName);
+		    listVerticalRunsdeviation.add(verticalRunsdeviation(img));
+		}
+		return listVerticalRunsdeviation;
+	}
+
+	public double verticalRunsdeviation(GImage img){
 		if(img == null) {
-			System.out.println("concentrationでヌルポ");
+			System.out.println("verticalRunsdeviationでヌルポ");
 			return 0;
 		}
 		int width = img.getWidth();
@@ -47,10 +57,11 @@ public class VerticalRunsdeviation extends Extract{
 	    double average = (double)count/x;
 
 	    for(int i = 0; i < n.size(); i++) {
-	    	total += Math.pow(n.get(i) - average, 2.0);
+	    	total += Math.pow((double)(n.get(i)) - average, 2.0);
 	    }
 
-	    return Math.floor(Math.sqrt(total/x) * 1000) / 1000;
+	    //return Math.floor(Math.sqrt(total/x) * 1000) / 1000;
+	    return Math.sqrt(total/(double)(x));
 	}
 
 }

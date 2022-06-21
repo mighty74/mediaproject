@@ -1,9 +1,22 @@
 package final01;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import GImage.GImage;
 
 public class Concentration extends Extract{
-	public double extracted(GImage img){
+	public List<Double> extracted(){
+		List<Double> listConcentration = new ArrayList<Double>();
+		for(int i = 1; i <= 100; i++) {
+			String fileName = "FinalImage/" + i + ".bmp";
+		    GImage img= new GImage(fileName);
+		    listConcentration.add(concentration(img));
+		}
+		return listConcentration;
+	}
+
+	public double concentration(GImage img){
 		if(img == null) {
 			System.out.println("concentrationでヌルポ");
 			return 0;
@@ -37,6 +50,7 @@ public class Concentration extends Extract{
 	    	}
 	    }
 	    int area = (xmax-xmin+1)*(ymax-ymin+1);
-		return Math.floor((double)count * 1000 / area) / 1000;
+		//return Math.floor((double)count * 1000 / area) / 1000;
+	    return (double)count/ area;
 	}
 }
