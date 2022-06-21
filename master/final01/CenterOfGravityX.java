@@ -1,11 +1,23 @@
 package final01;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import GImage.GImage;
 
 public class CenterOfGravityX extends Extract{
-	public double extracted(GImage img){
+	public List<Double> extracted(){
+		List<Double> listCenterOfGravityX = new ArrayList<Double>();
+		for(int i = 1; i <= 100; i++) {
+			String fileName = "FinalImage/" + i + ".bmp";
+		    GImage img= new GImage(fileName);
+		    listCenterOfGravityX.add(centerOfGravityX(img));
+		}
+		return listCenterOfGravityX;
+	}
+	public double centerOfGravityX(GImage img){
 		if(img == null) {
-			System.out.println("concentrationでヌルポ");
+			System.out.println("centerOfGravityXでヌルポ");
 			return 0;
 		}
 		int width = img.getWidth();
@@ -51,6 +63,7 @@ public class CenterOfGravityX extends Extract{
 	    		j += l*at;
 	    	}
 	    }
-	    return (int)Math.round(j/num);
+	    //return (int)Math.round(j/num);
+	    return (double)(j/num);
 	}
 }
