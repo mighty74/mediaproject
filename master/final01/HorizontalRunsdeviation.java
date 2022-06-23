@@ -27,13 +27,10 @@ public class HorizontalRunsdeviation extends Extract{
 	    int ymax = 0;
 	    int count = 0;
 	    double total = 0;
-	    boolean flag = false;
 	    List<Integer> n = new ArrayList<Integer>();
 
 	    for(int i = 0; i < height; i++) {
-	    	int k = 0;
-	    	flag = false;
-	    	for(int l = 0; l < width-1; l++) {
+	    	for(int l = 0; l < width; l++) {
 	    		if(img.pixel[i][l] == 0) {
 	    			if(ymin >= i) {
 	    				ymin = i;
@@ -41,17 +38,19 @@ public class HorizontalRunsdeviation extends Extract{
 	    			if(ymax <= i) {
 	    				ymax = i;
 	    			}
-	    			if(img.pixel[i][l-1] == 255) {
-	    				count += 1;
-	    				k += 1;
-	    				flag = true;
-	    			}
 	    		}
 	    	}
-	    	if(flag) {
-	    		n.add(k);
-	    	}
 	    }
+	    for(int i = ymin; i <= ymax; i++) {
+	    	 int k = 0;
+	    	 for(int l = 1; l < width; l++) {
+	    		 if(img.pixel[i][l-1] == 255 && img.pixel[i][l] == 0) {
+   				 count += 1;
+   				 k += 1;
+	    		 }
+	    	 }
+	    	 n.add(k);
+	     }
 	    int y = ymax-ymin+1;
 	    double average = (double)count/y;
 

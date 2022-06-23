@@ -27,13 +27,10 @@ public class VerticalRunsdeviation extends Extract{
 	    int xmax = 0;
 	    int count = 0;
 	    double total = 0;
-	    boolean flag = false;
 	    List<Integer> n = new ArrayList<Integer>();
 
 	    for(int l = 0; l < width; l++) {
-	    	int k = 0;
-	    	flag = false;
-	    	for(int i = 0; i < height-1; i++) {
+	    	for(int i = 0; i < height; i++) {
 	    		if(img.pixel[i][l] == 0) {
 	    			if(xmin >= l) {
 	    				xmin = l;
@@ -41,17 +38,19 @@ public class VerticalRunsdeviation extends Extract{
 	    			if(xmax <= l) {
 	    				xmax = l;
 	    			}
-	    			if(img.pixel[i-1][l] == 255) {
-	    				count += 1;
-	    				k += 1;
-	    				flag = true;
-	    			}
 	    		}
 	    	}
-	    	if(flag) {
-	    		n.add(k);
-	    	}
 	    }
+	    for(int l = xmin; l <= xmax; l++) {
+	    	 int k = 0;
+	    	 for(int i = 1; i < height; i++) {
+	    		 if(img.pixel[i-1][l] == 255 && img.pixel[i][l] == 0) {
+   				 count += 1;
+   				 k += 1;
+	    		 }
+	    	 }
+	    	 n.add(k);
+	     }
 
 	    int x = xmax-xmin+1;
 	    double average = (double)count/x;
