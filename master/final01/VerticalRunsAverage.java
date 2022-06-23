@@ -26,7 +26,7 @@ public class VerticalRunsAverage extends Extract{
 	    int xmax = 0;
 	    int count = 0;
 
-	    for(int i = 0; i < height-1; i++) {
+	    for(int i = 1; i < height; i++) {
 	    	for(int l = 0; l < width; l++) {
 	    		if(img.pixel[i][l] == 0) {
 	    			if(xmin >= l) {

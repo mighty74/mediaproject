@@ -5,7 +5,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 import GImage.GImage;
 
@@ -18,6 +20,8 @@ public class Main {
 	private static List<Double> listVerticalRunsdeviation = new ArrayList<Double>();
 	private static List<Double> listCenterOfGravityX = new ArrayList<Double>();
 	private static List<Double> listCenterOfGravityY = new ArrayList<Double>();
+
+	private static List<Double> listNormalizationConcentration = new ArrayList<Double>();
 	private static List<Double> listNormalizationAspect = new ArrayList<Double>();
 	private static List<Double> listNormalizationHorizontalRunsAverage = new ArrayList<Double>();
 	private static List<Double> listNormalizationVerticalRunsAverage = new ArrayList<Double>();
@@ -26,7 +30,7 @@ public class Main {
 	private static List<Double> listNormalizationCenterOfGravityX = new ArrayList<Double>();
 	private static List<Double> listNormalizationCenterOfGravityY = new ArrayList<Double>();
 
-	private static List<Double> listNormalizationConcentration = new ArrayList<Double>();
+
 	public static void main(String[] args) {
 		//GImage img= new GImage("FinalImage/3.bmp");
 		Extract extract = new Concentration();
@@ -53,10 +57,10 @@ public class Main {
 		extract = new CenterOfGravityY();
 		listCenterOfGravityY = extract.extracted();
 
-		for(int i = 1; i <=1; i++) {
-			GImage img= new GImage("FinalImage/" + i + ".bmp");
-			printNum(img, i);
-		}
+//		for(int i = 1; i <=100; i++) {
+//			GImage img= new GImage("FinalImage/" + i + ".bmp");
+//			printNum(img, i);
+//		}
 		Normalization normalization = new Normalization();
 		listNormalizationConcentration = normalization.normalization(listConcentration);
 		listNormalizationAspect = normalization.normalization(listAspect);
@@ -69,17 +73,30 @@ public class Main {
 		exportCSV(listNormalizationConcentration, listNormalizationAspect, listNormalizationHorizontalRunsAverage,
 				listNormalizationVerticalRunsAverage, listNormalizationHorizontalRunsdeviation, listNormalizationVerticalRunsdeviation,
 				listNormalizationCenterOfGravityX, listNormalizationCenterOfGravityY);
-//		for(int i = 0; i < 1; i++) {
-//			System.out.println("正規化した");
-//			System.out.print("FinalImage/" + (i+1) + ".bmp：濃度--" + listNormalizationConcentration.get(i) + ", ");
-//			System.out.print("短形比--" + listNormalizationAspect.get(i) + ", ");
-//			System.out.print("水平ラ--" + listNormalizationHorizontalRunsAverage.get(i) + ", ");
-//			System.out.print("垂直ラ--" + listNormalizationVerticalRunsAverage.get(i) + ", ");
-//			System.out.print("水ラ標--" + listNormalizationHorizontalRunsdeviation.get(i) + ", ");
-//			System.out.print("垂ラ標--" + listNormalizationVerticalRunsdeviation.get(i) + ", ");
-//			System.out.print("重心X--" + listNormalizationCenterOfGravityX.get(i) + ", ");
-//			System.out.println("重心Y--" + listNormalizationCenterOfGravityY.get(i));
-//		}
+
+		while(true) {
+			Scanner scanner = new Scanner(System.in);
+			System.out.print("file番号,exit = -1");
+			System.out.print("入力してください > ");
+		    //入力された内容をインスタンスから取得
+			int filename = Integer.parseInt(scanner.nextLine());
+			if(filename == -1) {
+				scanner.close();
+				break;
+			}
+
+		    System.out.print("濃度:0 短形比:1 水平ラ:2 垂直ラ:3 水ラ標:4 垂ラ標:5 重心X:6 重心Y:7(空白なし)");
+			System.out.print("入力してください > ");
+		    //入力された内容をインスタンスから取得
+		    String input = scanner.nextLine();
+		    String[] in = input.split("");
+
+		    List<Integer> sim = Simurate(filename, in);
+			for(int k: sim) {
+				System.out.println(k) ;
+			}
+
+		}
 
 	}
 
@@ -151,5 +168,66 @@ public class Main {
 		catch(IOException ex) {
 			ex.printStackTrace();
 		}
+	}
+
+
+	public static List<Integer> Simurate(int i, String[] strs) {
+		List<Double> dif = new ArrayList<Double>();
+		for(int k = 0; k < 100; k++) {
+			dif.add(0.0);
+		}
+		for(int l = 0; l < strs.length; l++) {
+			double pos = serect(strs[l]).get(i-1);
+			for(int k = 0; k < 100; k++) {
+				double add =Math.pow(pos - serect(strs[l]).get(k), 2);
+				dif.set(k, dif.get(k)+add);
+			}
+		}
+		for(int k = 0; k < 100; k++) {
+			double temp = Math.sqrt(dif.get(k));
+			dif.set(k, temp);
+		}
+		List<Double> oridif = (List<Double>)((ArrayList)dif).clone();
+		Collections.sort(dif);
+		List<Integer> an= new ArrayList<Integer>();
+		for(int k = 1; k <= 10; k++) {
+			int d = oridif.indexOf(dif.get(k));
+			//System.out.println(dif.get(k));
+			an.add(d+1);
+		}
+		return an;
+	}
+
+	public static List<Double> serect(String str) {
+		List<Double> select = new ArrayList<Double>();
+		switch(str) {
+			case "0":
+				select = listNormalizationConcentration;
+				break;
+			case "1":
+				select = listNormalizationAspect;
+				break;
+			case "2":
+				select = listNormalizationHorizontalRunsAverage;
+				break;
+			case "3":
+				select = listNormalizationVerticalRunsAverage;
+				break;
+			case "4":
+				select = listNormalizationHorizontalRunsdeviation;
+				break;
+			case "5":
+				select = listNormalizationVerticalRunsdeviation;
+				break;
+			case "6":
+				select = listNormalizationCenterOfGravityX;
+				break;
+			case "7":
+				select = listNormalizationCenterOfGravityY;
+				break;
+		}
+
+		return select;
+
 	}
 }

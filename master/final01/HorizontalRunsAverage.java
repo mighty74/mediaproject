@@ -27,7 +27,7 @@ public class HorizontalRunsAverage extends Extract{
 	    int count = 0;
 
 	    for(int i = 0; i < height; i++) {
-	    	for(int l = 0; l < width-1; l++) {
+	    	for(int l = 1; l < width; l++) {
 	    		if(img.pixel[i][l] == 0) {
 	    			if(ymin >= i) {
 	    				ymin = i;
