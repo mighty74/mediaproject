@@ -78,7 +78,7 @@ public class Main {
 		//各特徴量をprintする
 //		for(int i = 1; i <=100; i++) {
 //			GImage img= new GImage("FinalImage/" + i + ".bmp");
-//			printNum(img, i);
+//			printNum(i);
 //		}
 
 		//正規化するクラス
@@ -140,11 +140,10 @@ public class Main {
 	}
 
 	/**
-	 * 入力画像に対する全ての特徴量をprintするメソッド(引数にimgがあるが不要)
-	 * @param img
+	 * 入力画像に対する全ての特徴量をprintするメソッド
 	 * @param i
 	 */
-	public static void printNum(GImage img, int i) {
+	public static void printNum(int i) {
 		double concentration = Math.floor(listConcentration.get(i-1) * 1000) / 1000;
 		double aspect = Math.floor(listAspect.get(i-1) * 1000) / 1000;
 		double horizontalRunsAverage = Math.floor(listHorizontalRunsAverage.get(i-1) * 1000) / 1000;
@@ -196,8 +195,10 @@ public class Main {
 				pw.print(sim.get(i) + ".bmp");
 				for(String k : in) {
 					pw.print(",");
+					//特徴量を格納しているリストを呼ぶ
+					String str = Integer.toString(Integer.parseInt(k) + 10);
 					//各特徴量を描画
-					pw.print(serect(k).get(sim.get(i)));
+					pw.print(serect(str).get(sim.get(i)-1));
 				}
 				pw.print(",");
 				//difnumには類似順に距離が格納されている
@@ -297,6 +298,30 @@ public class Main {
 				break;
 			case "7":
 				select = listNormalizationCenterOfGravityY;
+				break;
+			case "10":
+				select = listConcentration;
+				break;
+			case "11":
+				select = listAspect;
+				break;
+			case "12":
+				select = listHorizontalRunsAverage;
+				break;
+			case "13":
+				select = listVerticalRunsAverage;
+				break;
+			case "14":
+				select = listHorizontalRunsdeviation;
+				break;
+			case "15":
+				select = listVerticalRunsdeviation;
+				break;
+			case "16":
+				select = listCenterOfGravityX;
+				break;
+			case "17":
+				select = listCenterOfGravityY;
 				break;
 		}
 
