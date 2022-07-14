@@ -76,10 +76,14 @@ public class Main {
 		listCenterOfGravityY = extract.extracted();
 
 		//各特徴量をprintする
-//		for(int i = 1; i <=100; i++) {
-//			GImage img= new GImage("FinalImage/" + i + ".bmp");
-//			printNum(i);
-//		}
+		System.out.println("学番下一桁と画像番号下一桁とが同じ画像");
+		for(int i = 1; i <=100; i++) {
+
+			if(i%10 != 1) {
+				continue;
+			}
+			printNum(i);
+		}
 
 		//正規化するクラス
 		Normalization normalization = new Normalization();
